@@ -1,0 +1,33 @@
+body {
+	margin: 3% 5%;
+}
+
+main {
+	position: relative;
+}
+
+canvas {
+	border: 1px solid black;
+	display: block;
+}
+
+section {
+	width: 500px;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+#border {
+	border: 3px solid blue;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	pointer-events: none;
+}

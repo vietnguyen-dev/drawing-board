@@ -1,0 +1,13 @@
+# Node modules (any depth)
+node_modules/
+**/node_modules/
+
+# Environment files (any depth)
+.env
+.env.*
+**/.env
+**/.env.*
+
+# macOS junk
+.DS_Store
+**/.DS_Store
