@@ -8,8 +8,6 @@ window.addEventListener("load", async () => {
 
   const x = urlParams.get("x"); // 'Ian'
   const y = urlParams.get("y");
-
-  console.log(x, y);
 });
 
 const board = document.getElementById("canvas");
@@ -47,5 +45,27 @@ drawBoard();
 
 colorInput.addEventListener("input", (e) => {
   color = e.target.value;
-  console.log(e.target.value);
+});
+
+function draw(e) {
+  console.log(e);
+}
+
+board.addEventListener("pointerdown", (e) => {
+  drawing = true;
+  board.setPointerCapture(e.pointerId);
+});
+
+board.addEventListener("pointermove", (e) => {
+  if (!drawing) return;
+
+  console.log("drawing", e.clientX, e.clientY);
+});
+
+board.addEventListener("pointerup", () => {
+  drawing = false;
+});
+
+board.addEventListener("pointercancel", () => {
+  drawing = false;
 });

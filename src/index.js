@@ -1,5 +1,7 @@
-window.addEventListener("load", () => {
-  console.log("load data here sdfd");
+window.addEventListener("load", async () => {
+  const res = await fetch("/api/coordinates");
+  const data = await res.json();
+  console.log(data);
 });
 
 const board = document.getElementById("canvas");
@@ -48,8 +50,8 @@ function goToSquare(event) {
   let y = event.clientY - rect.top;
 
   const params = new URLSearchParams({
-    x: roundToHundred(x) / 100,
-    y: roundToHundred(y) / 100,
+    x: roundToHundred(x),
+    y: roundToHundred(y),
   });
 
   // navigate (works with file:// and http://)
