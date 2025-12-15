@@ -1,4 +1,4 @@
-CREATE TABLE squares (
+CREATE TABLE coordinates (
   x INTEGER NOT NULL,
   y INTEGER NOT NULL,
   color VARCHAR(8) NOT NULL,

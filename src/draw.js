@@ -1,12 +1,8 @@
 window.addEventListener("load", async () => {
-  console.log("load square data here 222");
-  console.log("URL:");
-
   const queryString = window.location.search;
-
   const urlParams = new URLSearchParams(queryString);
 
-  const x = urlParams.get("x"); // 'Ian'
+  const x = urlParams.get("x");
   const y = urlParams.get("y");
 });
 
