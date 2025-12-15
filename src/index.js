@@ -44,14 +44,18 @@ function roundToHundred(n) {
   return Math.ceil(n / 100) * 100;
 }
 
+function roundToHundredFloor(n) {
+  return Math.floor(n / 100) * 100;
+}
+
 function goToSquare(event) {
   const rect = board.getBoundingClientRect();
   let x = event.clientX - rect.left;
   let y = event.clientY - rect.top;
 
   const params = new URLSearchParams({
-    x: roundToHundred(x),
-    y: roundToHundred(y),
+    x: roundToHundredFloor(x),
+    y: roundToHundredFloor(y),
   });
 
   // navigate (works with file:// and http://)
