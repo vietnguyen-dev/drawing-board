@@ -21,6 +21,7 @@ function drawBoard() {
       const startX = square * i;
       const startY = square * j;
       ctx.beginPath();
+      ctx.lineWidth = 0.5;
       ctx.moveTo(startX, startY); // start point
       ctx.lineTo(startX, startY + 1000); // end point
       ctx.stroke();
@@ -31,6 +32,7 @@ function drawBoard() {
       const startX = square * j;
       const startY = square * i;
       ctx.beginPath();
+      ctx.lineWidth = 0.5;
       ctx.moveTo(startX, startY); // start point
       ctx.lineTo(startX + 1000, startY); // end point
       ctx.stroke();
