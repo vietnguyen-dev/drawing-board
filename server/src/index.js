@@ -1,19 +1,19 @@
+const board = document.getElementById("canvas");
+const ctx = board.getContext("2d");
+const border = document.getElementById("border");
+
 window.addEventListener("load", async () => {
   try {
     const req = await fetch(`/api/coordinates`);
     const data = await req.json();
     data.forEach((item) => {
-      console.log(item);
+      ctx.fillStyle = item.color;
       ctx.fillRect(item.x, item.y, 5, 5);
     });
   } catch (err) {
     console.error(err);
   }
 });
-
-const board = document.getElementById("canvas");
-const ctx = board.getContext("2d");
-const border = document.getElementById("border");
 
 const square = 100;
 let color = "black";

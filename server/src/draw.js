@@ -17,13 +17,13 @@ window.addEventListener("load", async () => {
 
   const x = urlParams.get("x");
   const y = urlParams.get("y");
-  console.log(x, y);
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
+    console.log(data);
     data.forEach((item) => {
-      console.log(item);
-      ctx.fillRect(item.x, item.y, 25, 25);
+      ctx.fillStyle = item.color;
+      ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
     });
   } catch (err) {
     console.error(err);
@@ -36,7 +36,7 @@ function drawBoard() {
       const startX = square * i;
       const startY = square * j;
       ctx.beginPath();
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = 0.25;
       ctx.moveTo(startX, startY); // start point
       ctx.lineTo(startX, startY + 500); // end point
       ctx.stroke();
@@ -47,7 +47,7 @@ function drawBoard() {
       const startX = square * j;
       const startY = square * i;
       ctx.beginPath();
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = 0.25;
       ctx.moveTo(startX, startY); // start point
       ctx.lineTo(startX + 500, startY); // end point
       ctx.stroke();
@@ -64,6 +64,7 @@ colorInput.addEventListener("input", (e) => {
 board.addEventListener("pointerdown", (e) => {
   drawing = true;
   board.setPointerCapture(e.pointerId);
+  saving.classList.remove("hidden");
 });
 board.addEventListener("pointermove", (event) => {
   if (!drawing) return;
@@ -90,6 +91,8 @@ board.addEventListener("pointermove", (event) => {
   }
 });
 
+const saving = document.getElementById("saving");
+
 board.addEventListener("pointerup", async () => {
   drawing = false;
   try {
@@ -104,8 +107,10 @@ board.addEventListener("pointerup", async () => {
   } catch (err) {
     console.error(err);
   }
+  saving.classList.add("hidden");
 });
 
 board.addEventListener("pointercancel", () => {
   drawing = false;
+  saving.classList.add("hidden");
 });
