@@ -20,7 +20,6 @@ window.addEventListener("load", async () => {
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
-    console.log(data);
     data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
@@ -66,6 +65,7 @@ board.addEventListener("pointerdown", (e) => {
   board.setPointerCapture(e.pointerId);
   saving.classList.remove("hidden");
 });
+
 board.addEventListener("pointermove", (event) => {
   if (!drawing) return;
   const rect = board.getBoundingClientRect();
@@ -94,14 +94,24 @@ board.addEventListener("pointermove", (event) => {
 const saving = document.getElementById("saving");
 
 board.addEventListener("pointerup", async () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  const x = urlParams.get("x");
+  const y = urlParams.get("y");
   drawing = false;
+  let filtered = stroke.filter(
+    (item) =>
+      item.x >= x && item.x < x + 100 && item.y >= y && item.y < y + 100,
+  );
+
   try {
     const req = await fetch("/api/coordinates", {
       method: "POST", // Specify the method
       headers: {
         "Content-Type": "application/json", // Indicate the body format
       },
-      body: JSON.stringify({ data: stroke }),
+      body: JSON.stringify({ data: filtered }),
     });
     stroke = [];
   } catch (err) {
