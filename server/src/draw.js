@@ -20,6 +20,7 @@ window.addEventListener("load", async () => {
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
+    console.log(data.length);
     data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
@@ -84,8 +85,8 @@ board.addEventListener("pointermove", (event) => {
     const urlX = urlParams.get("x");
     const urlY = urlParams.get("y");
     stroke.push({
-      x: flooredX / 5 + parseInt(urlX),
-      y: flooredY / 5 + parseInt(urlY),
+      x: parseInt(flooredX / 5 + parseInt(urlX)),
+      y: parseInt(flooredY / 5 + parseInt(urlY)),
       color: color,
     });
   }
@@ -97,8 +98,8 @@ board.addEventListener("pointerup", async () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  const x = urlParams.get("x");
-  const y = urlParams.get("y");
+  const x = parseInt(urlParams.get("x"));
+  const y = parseInt(urlParams.get("y"));
   drawing = false;
   let filtered = stroke.filter(
     (item) =>
