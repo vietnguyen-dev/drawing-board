@@ -1,12 +1,3 @@
-window.addEventListener("load", async () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-
-  const x = urlParams.get("x");
-  const y = urlParams.get("y");
-  console.log(x, y);
-});
-
 const board = document.getElementById("canvas");
 const ctx = board.getContext("2d");
 const colorInput = document.getElementById("color-picker");
@@ -19,6 +10,25 @@ let mouseLocation = {
   y: 0,
 };
 let stroke = [];
+
+window.addEventListener("load", async () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  const x = urlParams.get("x");
+  const y = urlParams.get("y");
+  console.log(x, y);
+  try {
+    const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
+    const data = await req.json();
+    data.forEach((item) => {
+      console.log(item);
+      ctx.fillRect(item.x, item.y, 25, 25);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 function drawBoard() {
   for (let i = 0; i < 20; i++) {
@@ -55,7 +65,6 @@ board.addEventListener("pointerdown", (e) => {
   drawing = true;
   board.setPointerCapture(e.pointerId);
 });
-
 board.addEventListener("pointermove", (event) => {
   if (!drawing) return;
   const rect = board.getBoundingClientRect();
@@ -83,9 +92,18 @@ board.addEventListener("pointermove", (event) => {
 
 board.addEventListener("pointerup", async () => {
   drawing = false;
-  console.log(stroke);
-  const req = await fetch("/api/coordinates", {});
-  stroke = [];
+  try {
+    const req = await fetch("/api/coordinates", {
+      method: "POST", // Specify the method
+      headers: {
+        "Content-Type": "application/json", // Indicate the body format
+      },
+      body: JSON.stringify({ data: stroke }),
+    });
+    stroke = [];
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 board.addEventListener("pointercancel", () => {

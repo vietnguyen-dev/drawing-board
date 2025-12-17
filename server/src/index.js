@@ -1,7 +1,14 @@
 window.addEventListener("load", async () => {
-  const res = await fetch("/api/coordinates");
-  const data = await res.json();
-  console.log(data);
+  try {
+    const req = await fetch(`/api/coordinates`);
+    const data = await req.json();
+    data.forEach((item) => {
+      console.log(item);
+      ctx.fillRect(item.x, item.y, 5, 5);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 const board = document.getElementById("canvas");

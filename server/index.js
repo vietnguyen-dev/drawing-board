@@ -34,8 +34,10 @@ app.get("/", (req, res) => {
 
 app.get("/api/coordinates", async (req, res) => {
   let query = "SELECT * FROM coordinates";
+  const x = req.query.x;
+  const y = req.query.y;
   if (req.query.x != null || req.query.y != null) {
-    query = `${query} WHERE x = ${x} AND y = ${y}`;
+    query = `${query} WHERE x >= ${x} AND x <= ${x + 100} AND y >= ${y} AND y <= ${y + 100}`;
   }
   query = `${query};`;
   try {
@@ -48,7 +50,7 @@ app.get("/api/coordinates", async (req, res) => {
 });
 
 app.post("/api/coordinates", async (req, res) => {
-  const points = req.body; // [{x,y,color}, ...]
+  const points = req.body.data; // [{x,y,color}, ...]
 
   if (!Array.isArray(points) || points.length === 0) {
     return res.status(400).json({ error: "No data" });
