@@ -2,22 +2,29 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import mysql from "mysql2/promise";
+import dotenv from "dotenv";
 import cors from "cors";
+import fs from "fs";
 
 const app = express();
 const PORT = 3000;
 
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 
 const pool = mysql.createPool({
-  host: "localhost", // "mysql" if Node is in Docker
-  user: "appuser",
-  password: "apppassword",
-  database: "appdb",
+  host: process.env.host, // "mysql" if Node is in Docker
+  user: process.env.username,
+  password: process.env.password,
+  database: process.env.database,
+  port: parseInt(process.env.port),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  ssl: {
+    ca: fs.readFileSync("../cert/ca-certificate.crt"),
+  },
 });
 
 // Required for ES modules
@@ -74,31 +81,6 @@ app.post("/api/coordinates", async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
-
-/*
-app.put("/api/coordinates", async (req, res) => {
-  const { x, y, color } = req.body;
-  if (x == null || y == null || !color) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
-  const date = new Date.toString();
-  try {
-    const [result] = await pool.execute(
-      "UPDATE coordinates SET color = ?, updated_at = ? WHERE x = ? AND y = ?;",
-      [color, date, x, y],
-    );
-    res.status(201).json({
-      id: result.insertId,
-      x,
-      y,
-      color,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
-*/
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
