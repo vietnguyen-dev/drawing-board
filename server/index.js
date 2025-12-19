@@ -82,6 +82,26 @@ app.post("/api/coordinates", async (req, res) => {
   }
 });
 
+app.delete("/api/coordinates", async (req, res) => {
+  const points = req.body.data; // [{x,y,color}, ...]
+
+  if (!Array.isArray(points) || points.length === 0) {
+    return res.status(400).json({ error: "No data" });
+  }
+  const keys = points.map((point) => [point.x, point.y]);
+  let keyString = keys.join("],[");
+  keyString = keyString.replaceAll("]", ")").replaceAll("[", "(");
+  const sql = `DELETE FROM coordinates WHERE (x, y) IN ((${keyString}));`;
+
+  try {
+    await pool.execute(sql);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

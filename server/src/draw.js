@@ -10,6 +10,7 @@ let mouseLocation = {
   y: 0,
 };
 let stroke = [];
+let deleting = false;
 
 window.addEventListener("load", async () => {
   const queryString = window.location.search;
@@ -20,7 +21,6 @@ window.addEventListener("load", async () => {
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
-    console.log(data.length);
     data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
@@ -97,31 +97,64 @@ const saving = document.getElementById("saving");
 board.addEventListener("pointerup", async () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-
   const x = parseInt(urlParams.get("x"));
   const y = parseInt(urlParams.get("y"));
   drawing = false;
+
   let filtered = stroke.filter(
     (item) =>
       item.x >= x && item.x < x + 100 && item.y >= y && item.y < y + 100,
   );
 
   try {
-    const req = await fetch("/api/coordinates", {
-      method: "POST", // Specify the method
-      headers: {
-        "Content-Type": "application/json", // Indicate the body format
-      },
-      body: JSON.stringify({ data: filtered }),
-    });
-    stroke = [];
+    if (deleting) {
+      console.log("deleting", stroke);
+      const req = await fetch("/api/coordinates", {
+        method: "DELETE", // Specify the method
+        headers: {
+          "Content-Type": "application/json", // Indicate the body format
+        },
+        body: JSON.stringify({ data: filtered }),
+      });
+    } else {
+      const req = await fetch("/api/coordinates", {
+        method: "POST", // Specify the method
+        headers: {
+          "Content-Type": "application/json", // Indicate the body format
+        },
+        body: JSON.stringify({ data: filtered }),
+      });
+    }
   } catch (err) {
     console.error(err);
   }
   saving.classList.add("hidden");
+  stroke = [];
 });
 
 board.addEventListener("pointercancel", () => {
   drawing = false;
   saving.classList.add("hidden");
+});
+
+const clear = document.getElementById("clear");
+const erase = document.getElementById("erase");
+const eraseBorder = document.getElementById("erase-border");
+
+erase.addEventListener("click", () => {
+  deleting = !deleting;
+  if (deleting) {
+    eraseBorder.classList.remove("hidden");
+    color = "#FFFFFF";
+  } else {
+    eraseBorder.classList.add("hidden");
+    color = "#000000";
+  }
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (deleting) {
+    eraseBorder.style.left = `${e.clientX}px`;
+    eraseBorder.style.top = `${e.clientY}px`;
+  }
 });

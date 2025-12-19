@@ -16,8 +16,8 @@ section {
 }
 
 a {
-	color: white;
 	text-decoration: none;
+	color: black;
 }
 
 .hidden {
@@ -30,4 +30,13 @@ a {
 	height: 100px;
 	position: absolute;
 	pointer-events: none;
+}
+
+#erase-border {
+	width: 25px;
+	height: 25px;
+	border: 3px solid #FF8A9D;
+	pointer-events: none;
+	position: fixed;
+	transform: translate(-50%, -50%);
 }

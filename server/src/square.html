@@ -14,12 +14,12 @@
   <body>
     <h1>Individual Square</h1>
     <section class="mb-3 d-flex flex-row justify-content-between">
-      <button type="button" class="btn btn-primary">
-        <a href="index.html">HOME</a>
-      </button>
+      <a href="index.html">HOME</a>
       <div class="d-flex gap-3">
-        <button type="button" class="btn btn-clear">CLEAR</button>
-        <button type="button" class="btn btn-secondary">ERASE</button>
+        <button type="button" class="btn btn-primary" id="clear">CLEAR</button>
+        <button type="button" class="btn btn-secondary" id="erase">
+          ERASE
+        </button>
         <input
           type="color"
           class="form-control form-control-color"
@@ -33,6 +33,7 @@
       <p id="saving" class="hidden">saving...</p>
     </section>
     <canvas id="canvas" height="500" width="500"></canvas>
+    <div id="erase-border" class="hidden"></div>
   </body>
   <script src="draw.js" defer></script>
   <footer>This is a footer</footer>
