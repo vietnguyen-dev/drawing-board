@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd ${{ secrets.VPS_PROJECT_PATH }}
+            cd ${{ secrets.ROJECT_PATH }}
             git pull
             npm i
             docker compose up -d --build
