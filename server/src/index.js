@@ -16,34 +16,32 @@ window.addEventListener("load", async () => {
 });
 
 const square = 100;
-let color = "black";
+let color = "#000000";
 let borderLocation = {
   x: 0,
   y: 0,
 };
 
 function drawBoard() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      const startX = square * i;
-      const startY = square * j;
-      ctx.beginPath();
-      ctx.lineWidth = 0.5;
-      ctx.moveTo(startX, startY);
-      ctx.lineTo(startX, startY + 1000);
-      ctx.stroke();
-    }
+  for (let i = 1; i < 10; i++) {
+    const startX = square * i;
+    const startY = 0;
+    ctx.beginPath();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000000";
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX, startY + 1000);
+    ctx.stroke();
   }
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      const startX = square * j;
-      const startY = square * i;
-      ctx.beginPath();
-      ctx.lineWidth = 0.5;
-      ctx.moveTo(startX, startY);
-      ctx.lineTo(startX + 1000, startY);
-      ctx.stroke();
-    }
+  for (let i = 1; i < 10; i++) {
+    const startY = square * i;
+    const startX = 0;
+    ctx.beginPath();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000000";
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX + 1000, startY);
+    ctx.stroke();
   }
 }
 

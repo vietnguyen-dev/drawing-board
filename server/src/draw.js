@@ -31,27 +31,25 @@ window.addEventListener("load", async () => {
 });
 
 function drawBoard() {
-  for (let i = 0; i < 20; i++) {
-    for (let j = 0; j < 20; j++) {
-      const startX = square * i;
-      const startY = square * j;
-      ctx.beginPath();
-      ctx.lineWidth = 0.25;
-      ctx.moveTo(startX, startY);
-      ctx.lineTo(startX, startY + 500);
-      ctx.stroke();
-    }
+  for (let i = 1; i < 20; i++) {
+    const startX = square * i;
+    const startY = 0;
+    ctx.beginPath();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000000";
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX, startY + 500);
+    ctx.stroke();
   }
-  for (let i = 0; i < 20; i++) {
-    for (let j = 0; j < 20; j++) {
-      const startX = square * j;
-      const startY = square * i;
-      ctx.beginPath();
-      ctx.lineWidth = 0.25;
-      ctx.moveTo(startX, startY);
-      ctx.lineTo(startX + 500, startY);
-      ctx.stroke();
-    }
+  for (let i = 1; i < 20; i++) {
+    const startY = square * i;
+    const startX = 0;
+    ctx.beginPath();
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#000000";
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX + 500, startY);
+    ctx.stroke();
   }
 }
 
@@ -79,6 +77,8 @@ board.addEventListener("pointermove", (event) => {
     mouseLocation.y = flooredY;
     ctx.fillStyle = color;
     ctx.fillRect(flooredX, flooredY, square, square);
+    ctx.strokeStyle = color; // dark border
+    ctx.lineWidth = 1;
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
