@@ -1,7 +1,7 @@
 services:
   nginx:
     image: nginx:latest
-    container_name: drawing-board-nginx
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -23,6 +23,8 @@ services:
     container_name: express-server-1
     expose:
       - "3000"
+    volumes:
+      - ./cert:/cert:ro
     environment:
       - NODE_ENV=production
       - SERVER_ID=1
@@ -42,6 +44,8 @@ services:
     container_name: express-server-2
     expose:
       - "3000"
+    volumes:
+      - ./cert:/cert:ro
     environment:
       - NODE_ENV=production
       - SERVER_ID=2
