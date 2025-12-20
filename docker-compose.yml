@@ -19,7 +19,7 @@ services:
       - app-network
 
   express1:
-    build: .
+    build: ./server
     container_name: express-server-1
     expose:
       - "3000"
@@ -38,7 +38,7 @@ services:
       - app-network
 
   express2:
-    build: .
+    build: ./server
     container_name: express-server-2
     expose:
       - "3000"
