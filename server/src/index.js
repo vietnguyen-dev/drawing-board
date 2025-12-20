@@ -2,7 +2,7 @@ const board = document.getElementById("canvas");
 const ctx = board.getContext("2d");
 const border = document.getElementById("border");
 
-window.addEventListener("load", async () => {
+async function getGrid() {
   try {
     const req = await fetch(`/api/coordinates`);
     const data = await req.json();
@@ -12,6 +12,13 @@ window.addEventListener("load", async () => {
     });
   } catch (err) {
     console.error(err);
+  }
+}
+
+window.addEventListener("load", getGrid);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    getGrid();
   }
 });
 
