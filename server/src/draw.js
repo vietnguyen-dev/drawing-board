@@ -76,9 +76,10 @@ board.addEventListener("pointermove", (event) => {
     mouseLocation.x = flooredX;
     mouseLocation.y = flooredY;
     ctx.fillStyle = color;
+    ctx.strokeStyle = "#000000"; // dark border
+    ctx.lineWidth = 0.25;
     ctx.fillRect(flooredX, flooredY, square, square);
-    ctx.strokeStyle = color; // dark border
-    ctx.lineWidth = 1;
+    ctx.strokeRect(flooredX, flooredY, square, square);
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
