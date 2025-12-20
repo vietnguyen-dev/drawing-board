@@ -19,4 +19,5 @@ jobs:
           script: |
             cd ${{ secrets.VPS_PROJECT_PATH }}
             git pull
+            npm i
             docker compose up -d --build
