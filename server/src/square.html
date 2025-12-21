@@ -13,29 +13,55 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>Individual Square</h1>
-    <section class="mb-3 d-flex flex-row justify-content-between">
-      <a href="index.html">HOME</a>
-      <div class="d-flex gap-3">
-        <button type="button" class="btn btn-primary" id="clear">CLEAR</button>
-        <button type="button" class="btn btn-secondary" id="erase">
-          ERASE
-        </button>
-        <input
-          type="color"
-          class="form-control form-control-color"
-          id="color-picker"
-          value="#000000"
-          title="Choose your color"
-        />
-      </div>
-    </section>
-    <section class="mb-3">
-      <p id="saving" class="hidden">saving...</p>
-    </section>
-    <canvas id="canvas" height="500" width="500"></canvas>
-    <div id="erase-border" class="hidden"></div>
+    <div class="d-flex">
+      <section>
+        <h1>Individual Square</h1>
+        <section class="mb-3 d-flex flex-row justify-content-between">
+          <a href="index.html">HOME</a>
+          <div class="d-flex gap-3">
+            <button type="button" class="btn btn-primary" id="clear">
+              CLEAR
+            </button>
+            <button type="button" class="btn btn-secondary" id="erase">
+              ERASE
+            </button>
+            <input
+              type="color"
+              class="form-control form-control-color"
+              id="color-picker"
+              value="#000000"
+              title="Choose your color"
+            />
+          </div>
+        </section>
+        <section class="mb-3">
+          <p id="saving" class="hidden">saving...</p>
+        </section>
+        <canvas id="canvas" height="500" width="500"></canvas>
+        <div id="erase-border" class="hidden"></div>
+      </section>
+      <section class="mt-5 mx-3">
+        <h3 class="mt-5">AI Draw</h3>
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Decribe what you want to draw!</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+            <div id="emailHelp" class="form-text hidden">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </section>
+    </div>
+    <footer>This is a footer</footer>
   </body>
   <script src="draw.js" defer></script>
-  <footer>This is a footer</footer>
 </html>
