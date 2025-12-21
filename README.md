@@ -2,6 +2,8 @@
 
 A collaborative pixel art canvas powered by AI. Draw pixel by pixel, or let GPT-4o generate art from your imagination.
 
+**[Live Demo: https://gridsketching.com](https://gridsketching.com)**
+
 ## What is this?
 
 Drawing Board is a multiplayer pixel canvas where anyone can create, collaborate, and experiment with pixel art. Think r/place meets DALL-E, but simpler and hackable.

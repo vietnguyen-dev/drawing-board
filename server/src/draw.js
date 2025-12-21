@@ -9,10 +9,11 @@ let mouseLocation = {
   x: 0,
   y: 0,
 };
+let grid = [];
 let stroke = [];
 let deleting = false;
 
-window.addEventListener("load", async () => {
+async function getGrid() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
@@ -21,6 +22,7 @@ window.addEventListener("load", async () => {
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
+    grid = data;
     data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
@@ -28,7 +30,9 @@ window.addEventListener("load", async () => {
   } catch (err) {
     console.error(err);
   }
-});
+}
+
+window.addEventListener("load", getGrid);
 
 function drawBoard() {
   for (let i = 1; i < 20; i++) {
@@ -163,7 +167,12 @@ window.addEventListener("mousemove", (e) => {
 const aiInput = document.getElementById("ai-message");
 const aiForm = document.getElementById("ai-form");
 const aiButton = document.getElementById("ai-submit");
+const loading = document.getElementById("loading");
+const aiAcceptance = document.getElementById("ai-acceptance");
+const aiAccept = document.getElementById("ai-accept");
+const aiDeny = document.getElementById("ai-deny");
 let aiMessage = "";
+let aiCoordinates = [];
 
 aiInput.addEventListener("input", (e) => {
   aiMessage = e.target.value;
@@ -176,6 +185,7 @@ aiInput.addEventListener("input", (e) => {
 
 aiForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  loading.classList.remove("hidden");
   try {
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -185,7 +195,7 @@ aiForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({ message: aiMessage }),
     });
     const data = await res.json();
-    console.log(data);
+    aiCoordinates = data.coordinates;
     data.coordinates.forEach((item) => {
       console.log("Drawing:", item);
       ctx.fillStyle = item.color;
@@ -200,4 +210,11 @@ aiForm.addEventListener("submit", async (e) => {
   aiForm.reset();
   aiMessage = "";
   aiButton.disabled = true;
+  loading.classList.add("hidden");
+  aiAcceptance.classList.remove("hidden");
+});
+
+aiDeny.addEventListener("click", async () => {
+  aiAcceptance.classList.add("hidden");
+  await getGrid();
 });
