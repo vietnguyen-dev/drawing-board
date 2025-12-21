@@ -33,6 +33,7 @@ services:
       - port=${port}
       - database=${database}
       - sslmode=${sslmode}
+      - openai=${openai}
     restart: unless-stopped
     networks:
       - app-network
@@ -54,6 +55,7 @@ services:
       - port=${port}
       - database=${database}
       - sslmode=${sslmode}
+      - openai=${openai}
     restart: unless-stopped
     networks:
       - app-network
