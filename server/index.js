@@ -109,10 +109,18 @@ app.delete("/api/coordinates", async (req, res) => {
 
 app.post("/api/generate", async (req, res) => {
   const message = req.body.message;
+  let input = `I want to draw ${message} on a 500 * 500 pixel grid on html canvas`;
+  input += `it is a grid of 20 by 20 squares that are 25 * 2x pixels`;
+  input += `the data for this drawing is an array of objects that look like { x: coordinate, x: coordinate, color: hex color}`;
+  input += `draw on the entire grid, it should be 200 objects total, use a lot of hex colors not just black and white but white space as needed`;
+  input += `give me this array of 200 objects to draw ${message}`;
+  input += `array of objects shold start at {x:0,y:0,color: color} and end with {x:195,y:195,color: color}`;
+  input += `each object should be multiples of 25 up to 500. on both x and y values`;
+  input += `You return ONLY valid JSON array with no explanatory text`;
   try {
     const response = await client.responses.create({
       model: "gpt-4o",
-      input: `I want to draw ${message} on a html canvas that is 500px by 500px. it is a 20 * 20 grid, where each square in the grid represents 25 pixels. give me an array of objects that look like {x: value, y: value, color: color value} that draw what ${message}. each object x and y values should be multples of 25 and color value is hex. give me the array of objects nothing else. absolutely do other messages from you. I am going to turn this text into data to send back to the user color it too, use any and all hex values you want. be creative! use a lot of color you are bad at drawing`,
+      input: input,
     });
     let cleaned = response.output_text
       .replace(/```json\n?/g, "")

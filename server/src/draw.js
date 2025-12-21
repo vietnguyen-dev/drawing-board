@@ -185,9 +185,14 @@ aiForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({ message: aiMessage }),
     });
     const data = await res.json();
+    console.log(data);
     data.coordinates.forEach((item) => {
+      console.log("Drawing:", item);
       ctx.fillStyle = item.color;
-      ctx.fillRect(item.x * 5, item.y * 5, 25, 25);
+      ctx.strokeStyle = item.color; // dark border
+      ctx.lineWidth = 0.25;
+      ctx.strokeRect(item.x, item.y, square, square);
+      ctx.fillRect(item.x, item.y, square, square);
     });
   } catch (err) {
     console.error(err);
