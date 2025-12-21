@@ -159,3 +159,40 @@ window.addEventListener("mousemove", (e) => {
     eraseBorder.style.top = `${e.clientY}px`;
   }
 });
+
+const aiInput = document.getElementById("ai-message");
+const aiForm = document.getElementById("ai-form");
+const aiButton = document.getElementById("ai-submit");
+let aiMessage = "";
+
+aiInput.addEventListener("input", (e) => {
+  aiMessage = e.target.value;
+  if (aiMessage.length > 0) {
+    aiButton.disabled = false;
+  } else {
+    aiButton.disabled = true;
+  }
+});
+
+aiForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: aiMessage }),
+    });
+    const data = await res.json();
+    data.coordinates.forEach((item) => {
+      ctx.fillStyle = item.color;
+      ctx.fillRect(item.x * 5, item.y * 5, 25, 25);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+  aiForm.reset();
+  aiMessage = "";
+  aiButton.disabled = true;
+});

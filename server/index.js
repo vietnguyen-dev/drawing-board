@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
+import OpenAI from "openai";
 import cors from "cors";
 import fs from "fs";
 
@@ -25,6 +26,10 @@ const pool = mysql.createPool({
   ssl: {
     ca: fs.readFileSync("../cert/ca-certificate.crt"),
   },
+});
+
+const client = new OpenAI({
+  apiKey: process.env.openai, // This is the default and can be omitted
 });
 
 // Required for ES modules
@@ -99,6 +104,28 @@ app.delete("/api/coordinates", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
+  }
+});
+
+app.post("/api/generate", async (req, res) => {
+  const message = req.body.message;
+  try {
+    const response = await client.responses.create({
+      model: "gpt-4o",
+      input: `I want to draw ${message} on a html canvas that is 500px by 500px. it is a 20 * 20 grid, where each square in the grid represents 25 pixels. give me an array of objects that look like {x: value, y: value, color: color value} that draw what ${message}. each object x and y values should be multples of 25 and color value is hex. give me the array of objects nothing else. absolutely do other messages from you. I am going to turn this text into data to send back to the user color it too, use any and all hex values you want. be creative!`,
+    });
+    let cleaned = response.output_text
+      .replace(/```json\n?/g, "")
+      .replace(/```\n?/g, "")
+      .trim();
+
+    let parsed = JSON.parse(cleaned);
+
+    res.json({ success: true, coordinates: parsed });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "OpenAi error" });
+    console;
   }
 });
 

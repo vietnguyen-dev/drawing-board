@@ -42,22 +42,19 @@
       </section>
       <section class="mt-5 mx-3">
         <h3 class="mt-5">AI Draw</h3>
-        <form>
+        <form id="ai-form">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Decribe what you want to draw!</label
-            >
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-            <div id="emailHelp" class="form-text hidden">
-              We'll never share your email with anyone else.
-            </div>
+            <label class="form-label">Decribe what you want to draw!</label>
+            <input type="text" class="form-control" id="ai-message" />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            disabled="true"
+            id="ai-submit"
+          >
+            Submit
+          </button>
         </form>
       </section>
     </div>
