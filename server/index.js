@@ -112,7 +112,7 @@ app.post("/api/generate", async (req, res) => {
   try {
     const response = await client.responses.create({
       model: "gpt-4o",
-      input: `I want to draw ${message} on a html canvas that is 500px by 500px. it is a 20 * 20 grid, where each square in the grid represents 25 pixels. give me an array of objects that look like {x: value, y: value, color: color value} that draw what ${message}. each object x and y values should be multples of 25 and color value is hex. give me the array of objects nothing else. absolutely do other messages from you. I am going to turn this text into data to send back to the user color it too, use any and all hex values you want. be creative!`,
+      input: `I want to draw ${message} on a html canvas that is 500px by 500px. it is a 20 * 20 grid, where each square in the grid represents 25 pixels. give me an array of objects that look like {x: value, y: value, color: color value} that draw what ${message}. each object x and y values should be multples of 25 and color value is hex. give me the array of objects nothing else. absolutely do other messages from you. I am going to turn this text into data to send back to the user color it too, use any and all hex values you want. be creative! use a lot of color you are bad at drawing`,
     });
     let cleaned = response.output_text
       .replace(/```json\n?/g, "")
