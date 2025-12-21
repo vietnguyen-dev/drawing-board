@@ -30,6 +30,7 @@ const pool = mysql.createPool({
 
 const client = new OpenAI({
   apiKey: process.env.openai, // This is the default and can be omitted
+  timeout: 180 * 1000,
 });
 
 // Required for ES modules
@@ -108,6 +109,10 @@ app.delete("/api/coordinates", async (req, res) => {
 });
 
 app.post("/api/generate", async (req, res) => {
+  // timeout set this long only for this route
+  req.setTimeout(180000); // 3 minutes
+  res.setTimeout(180000);
+
   const message = req.body.message;
   let input = `I want to draw ${message} on a 500 * 500 pixel grid on html canvas`;
   input += `it is a grid of 20 by 20 squares that are 25 * 2x pixels`;
