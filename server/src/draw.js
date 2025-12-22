@@ -16,15 +16,18 @@ let deleting = false;
 async function getGrid() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-
   const x = urlParams.get("x");
   const y = urlParams.get("y");
+
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
     grid = data;
     data.forEach((item) => {
       ctx.fillStyle = item.color;
+      ctx.strokeStyle = "#000000"; // dark border
+      ctx.lineWidth = 0.25;
+      ctx.strokeRect((item.x - x) * 5, (item.y - y) * 5, square, square);
       ctx.fillRect((item.x - x) * 5, (item.y - y) * 5, 25, 25);
     });
   } catch (err) {
@@ -113,7 +116,6 @@ board.addEventListener("pointerup", async () => {
 
   try {
     if (deleting) {
-      console.log("deleting", stroke);
       const req = await fetch("/api/coordinates", {
         method: "DELETE",
         headers: {
@@ -142,7 +144,7 @@ board.addEventListener("pointercancel", () => {
   saving.classList.add("hidden");
 });
 
-const clear = document.getElementById("clear");
+const clear = document.getElementById("clear-accept");
 const erase = document.getElementById("erase");
 const eraseBorder = document.getElementById("erase-border");
 
@@ -154,6 +156,25 @@ erase.addEventListener("click", () => {
   } else {
     eraseBorder.classList.add("hidden");
     color = "#000000";
+  }
+});
+
+clear.addEventListener("click", async () => {
+  try {
+    console.log(grid.length);
+    const req = await fetch("/api/coordinates", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: grid }),
+    });
+
+    const data = await req.json();
+    console.log(data);
+    window.location.reload();
+  } catch (err) {
+    console.error(err);
   }
 });
 
@@ -217,7 +238,7 @@ aiAccept.addEventListener("click", async () => {
   aiAcceptance.classList.add("hidden");
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-
+  grid = aiCoordinates;
   const x = urlParams.get("x");
   const y = urlParams.get("y");
   const properCoordinates = aiCoordinates.map((item) => ({
