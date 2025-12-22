@@ -78,6 +78,8 @@ ISC
 
 PRs welcome! This is a learning project, so feel free to experiment and break things.
 
+**Found a bug?** Please report it at [https://github.com/yourusername/drawing-board/issues](https://github.com/yourusername/drawing-board/issues)
+
 ---
 
 Built with curiosity and a love for pixel art.
