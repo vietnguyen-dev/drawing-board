@@ -11,9 +11,25 @@ canvas {
 	display: block;
 }
 
+li {
+	list-style-type: none;
+}
+
 a {
 	text-decoration: none;
 	color: black;
+	background:
+		linear-gradient(to right, rgba(100, 200, 200, 1), rgba(100, 200, 200, 1)),
+		linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 0, 180, 1), rgba(0, 100, 200, 1));
+	background-size: 100% 0.1em, 0 0.1em;
+	background-position: 100% 100%, 0 100%;
+	background-repeat: no-repeat;
+	transition: background-size 400ms;
+}
+
+a:hover,
+a:focus {
+	background-size: 0 0.1em, 100% 0.1em;
 }
 
 .hidden {

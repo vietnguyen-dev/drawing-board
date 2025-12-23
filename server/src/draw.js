@@ -205,11 +205,11 @@ aiInput.addEventListener("input", (e) => {
   }
 });
 
-console.log(loading);
 aiForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loading[0].classList.remove("hidden");
   aiButton.classList.add("hidden");
+  aiButton.disabled = true;
   aiInput.disabled = true;
   try {
     const res = await fetch("/api/generate", {
@@ -231,9 +231,16 @@ aiForm.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error(err);
   }
+  aiForm.reset();
+  aiMessage = "";
+  loading[0].classList.add("hidden");
+  aiAcceptance.classList.remove("hidden");
+  aiButton.classList.remove("hidden");
 });
 
 aiAccept.addEventListener("click", async () => {
+  aiInput.disabled = false;
+  aiButton.disabled = false;
   aiAcceptance.classList.add("hidden");
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -252,13 +259,6 @@ aiAccept.addEventListener("click", async () => {
     },
     body: JSON.stringify({ data: properCoordinates }),
   });
-  aiForm.reset();
-  aiMessage = "";
-  aiButton.disabled = true;
-  loading[0].classList.add("hidden");
-  aiAcceptance.classList.remove("hidden");
-  aiButton.classList.remove("hidden");
-  aiInput.disabled = false;
 });
 
 aiDeny.addEventListener("click", async () => {
