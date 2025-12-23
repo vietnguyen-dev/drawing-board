@@ -146,6 +146,7 @@ board.addEventListener("pointercancel", () => {
 });
 
 const clear = document.getElementById("clear-accept");
+const initClear = document.getElementById("clear");
 const erase = document.getElementById("erase");
 const eraseBorder = document.getElementById("erase-border");
 
@@ -211,6 +212,9 @@ aiForm.addEventListener("submit", async (e) => {
   aiButton.classList.add("hidden");
   aiButton.disabled = true;
   aiInput.disabled = true;
+  colorInput.disabled = true;
+  initClear.disabled = true;
+  erase.disabled = true;
   try {
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -239,26 +243,33 @@ aiForm.addEventListener("submit", async (e) => {
 });
 
 aiAccept.addEventListener("click", async () => {
-  aiInput.disabled = false;
-  aiButton.disabled = false;
-  aiAcceptance.classList.add("hidden");
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  grid = aiCoordinates;
-  const x = urlParams.get("x");
-  const y = urlParams.get("y");
-  const properCoordinates = aiCoordinates.map((item) => ({
-    x: item.x / 5 + parseInt(x),
-    y: item.y / 5 + parseInt(y),
-    color: item.color,
-  }));
-  const req = await fetch("/api/coordinates", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data: properCoordinates }),
-  });
+  try {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    grid = aiCoordinates;
+    const x = urlParams.get("x");
+    const y = urlParams.get("y");
+    const properCoordinates = aiCoordinates.map((item) => ({
+      x: item.x / 5 + parseInt(x),
+      y: item.y / 5 + parseInt(y),
+      color: item.color,
+    }));
+    const req = await fetch("/api/coordinates", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data: properCoordinates }),
+    });
+    aiInput.disabled = false;
+    aiButton.disabled = false;
+    aiAcceptance.classList.add("hidden");
+    colorInput.disabled = true;
+    initClear.disabled = true;
+    erase.disabled = true;
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 aiDeny.addEventListener("click", async () => {
