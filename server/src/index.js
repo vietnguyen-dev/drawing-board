@@ -6,7 +6,7 @@ async function getGrid() {
   try {
     const req = await fetch(`/api/coordinates`);
     const data = await req.json();
-    data.forEach((item) => {
+    data.data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.fillRect(item.x, item.y, 5, 5);
     });
@@ -95,3 +95,4 @@ function addHoverBorder(event) {
 
 board.addEventListener("click", goToSquare);
 board.addEventListener("mousemove", addHoverBorder);
+

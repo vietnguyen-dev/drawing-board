@@ -18,107 +18,113 @@
     ></script>
   </head>
   <body>
-    <div class="d-flex">
-      <section>
+    <header>
+      <nav class="d-flex justify-content-between">
         <h1>Individual Square</h1>
-        <section class="mb-3 d-flex flex-row justify-content-between">
-          <a href="index.html">HOME</a>
-          <div class="d-flex gap-3">
-            <button
-              type="button"
-              class="btn btn-primary"
-              id="clear"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              CLEAR
-            </button>
-            <button type="button" class="btn btn-secondary" id="erase">
-              ERASE
-            </button>
-            <input
-              type="color"
-              class="form-control form-control-color"
-              id="color-picker"
-              value="#000000"
-              title="Choose your color"
-            />
-          </div>
-        </section>
-        <!-- Modal -->
-        <div
-          class="modal fade"
-          id="staticBackdrop"
-          data-bs-backdrop="static"
-          data-bs-keyboard="false"
-          tabindex="-1"
-          aria-labelledby="staticBackdropLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">
-                  Are you sure you want to clear?
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <p>
-                  By clicking accept you will completely remove all drawn pixels
-                  in this square
-                </p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  CLOSE
-                </button>
-                <button type="button" class="btn btn-primary" id="clear-accept">
-                  ACCEPT
-                </button>
-              </div>
-            </div>
-          </div>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section id="controls" class="mx-auto">
+      <section class="mb-3 d-flex flex-row justify-content-end">
+        <div class="d-flex gap-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="clear"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            CLEAR
+          </button>
+          <button type="button" class="btn btn-secondary" id="erase">
+            ERASE
+          </button>
+          <input
+            type="color"
+            class="form-control form-control-color"
+            id="color-picker"
+            value="#000000"
+            title="Choose your color"
+          />
         </div>
-
-        <section class="mb-3">
-          <div id="saving" class="loader hidden"></div>
-        </section>
-        <canvas id="canvas" height="500" width="500"></canvas>
-        <div id="erase-border" class="hidden"></div>
       </section>
-      <section class="mt-5 mx-5">
-        <h3 class="mt-5">AI Draw</h3>
-        <form id="ai-form">
-          <div class="mb-3">
-            <label class="form-label">Decribe what you want to draw!</label>
-            <input type="text" class="form-control" id="ai-message" />
-          </div>
+      <section>
+        <form id="ai-form" class="d-flex gap-3">
+          <input
+            type="text"
+            placeholder="Describe what you want to draw using AI!"
+            class="form-control"
+            id="ai-message"
+          />
           <button
             type="submit"
             class="btn btn-primary"
-            disabled="true"
+            disabled="false"
             id="ai-submit"
           >
             SUBMIT
           </button>
+          <div class="spinner-border hidden" role="status">
+            <span class="sr-only"></span>
+          </div>
         </form>
-        <div id="ai-acceptance" class="mt-5 hidden">
-          <button id="ai-accept" class="btn btn-primary">ACCEPT</button>
-          <button id="ai-deny" class="btn btn-secondary">DENY</button>
+        <div id="ai-acceptance" class="mt-3 mb-3 hidden">
+          <div class="w-50 mx-auto d-flex gap-3">
+            <button id="ai-accept" class="btn btn-primary">ACCEPT</button>
+            <button id="ai-deny" class="btn btn-secondary">DENY</button>
+          </div>
         </div>
-        <div id="loading" class="loader hidden"></div>
       </section>
+    </section>
+    <canvas id="canvas" height="500" width="500" class="mx-auto"></canvas>
+    <div id="erase-border" class="hidden"></div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Are you sure you want to clear?
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              By clicking accept you will completely remove all drawn pixels in
+              this square
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              CLOSE
+            </button>
+            <button type="button" class="btn btn-primary" id="clear-accept">
+              ACCEPT
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
     <footer>This is a footer</footer>
   </body>
   <script src="draw.js" defer></script>

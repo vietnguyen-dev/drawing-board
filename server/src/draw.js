@@ -22,8 +22,9 @@ async function getGrid() {
   try {
     const req = await fetch(`/api/coordinates?x=${x}&y=${y}`);
     const data = await req.json();
-    grid = data;
-    data.forEach((item) => {
+    console.log(data);
+    grid = data.data;
+    data.data.forEach((item) => {
       ctx.fillStyle = item.color;
       ctx.strokeStyle = "#000000"; // dark border
       ctx.lineWidth = 0.25;
@@ -188,7 +189,7 @@ window.addEventListener("mousemove", (e) => {
 const aiInput = document.getElementById("ai-message");
 const aiForm = document.getElementById("ai-form");
 const aiButton = document.getElementById("ai-submit");
-const loading = document.getElementById("loading");
+const loading = document.getElementsByClassName("spinner-border");
 const aiAcceptance = document.getElementById("ai-acceptance");
 const aiAccept = document.getElementById("ai-accept");
 const aiDeny = document.getElementById("ai-deny");
@@ -204,9 +205,12 @@ aiInput.addEventListener("input", (e) => {
   }
 });
 
+console.log(loading);
 aiForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  loading.classList.remove("hidden");
+  loading[0].classList.remove("hidden");
+  aiButton.classList.add("hidden");
+  aiInput.disabled = true;
   try {
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -227,11 +231,6 @@ aiForm.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error(err);
   }
-  aiForm.reset();
-  aiMessage = "";
-  aiButton.disabled = true;
-  loading.classList.add("hidden");
-  aiAcceptance.classList.remove("hidden");
 });
 
 aiAccept.addEventListener("click", async () => {
@@ -253,10 +252,16 @@ aiAccept.addEventListener("click", async () => {
     },
     body: JSON.stringify({ data: properCoordinates }),
   });
+  aiForm.reset();
+  aiMessage = "";
+  aiButton.disabled = true;
+  loading[0].classList.add("hidden");
+  aiAcceptance.classList.remove("hidden");
+  aiButton.classList.remove("hidden");
+  aiInput.disabled = false;
 });
 
 aiDeny.addEventListener("click", async () => {
   aiAcceptance.classList.add("hidden");
   window.location.reload();
 });
-

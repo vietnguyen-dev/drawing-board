@@ -47,15 +47,16 @@ app.use(express.static(path.join(__dirname, "src")));
 
 app.get("/api/coordinates", async (req, res) => {
   let query = "SELECT * FROM coordinates";
-  const x = req.query.x;
-  const y = req.query.y;
+  const x = parseInt(req.query.x);
+  const y = parseInt(req.query.y);
+  const range = [x, x + 100, y, y + 100];
   if (req.query.x != null || req.query.y != null) {
-    query = `${query} WHERE x >= ${x} AND x <= ${x + 100} AND y >= ${y} AND y <= ${y + 100}`;
+    query = `${query} WHERE x >= ? AND x <= ? AND y >= ? AND y <= ?`;
   }
   query = `${query};`;
   try {
-    const [rows] = await pool.execute(query);
-    res.json(rows);
+    const [rows] = await pool.execute(query, range);
+    res.json({ success: true, count: rows.length, data: rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
@@ -101,7 +102,7 @@ app.delete("/api/coordinates", async (req, res) => {
 
   try {
     await pool.execute(sql);
-    res.json({ success: true });
+    res.json({ success: true, count: rows.length, data: rows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
@@ -118,7 +119,7 @@ app.post("/api/generate", async (req, res) => {
   input += `it is a grid of 20 by 20 squares that are 25 * 2x pixels`;
   input += `the data for this drawing is an array of objects that look like { x: coordinate, x: coordinate, color: hex color}`;
   input += `draw on the entire grid, it should be 200 objects total, use a lot of hex colors not just black and white but white space as needed`;
-  input += `give me this array of 200 objects to draw ${message}`;
+  input += `give me this array of 400 total objects to draw ${message}`;
   input += `array of objects shold start at {x:0,y:0,color: color} and end with {x:195,y:195,color: color}`;
   input += `each object should be multiples of 25 up to 500. on both x and y values`;
   input += `You return ONLY valid JSON array with no explanatory text`;
@@ -134,7 +135,7 @@ app.post("/api/generate", async (req, res) => {
 
     let parsed = JSON.parse(cleaned);
 
-    res.json({ success: true, coordinates: parsed });
+    res.json({ success: true, length: parsed.length, coordinates: parsed });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "OpenAi error" });
