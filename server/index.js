@@ -103,7 +103,7 @@ app.delete("/api/coordinates", async (req, res) => {
   try {
     const [result] = await pool.query(
       `DELETE FROM coordinates WHERE (x, y) IN (${placeholders})`,
-      values
+      values,
     );
     res.json({ success: true, count: result.affectedRows });
   } catch (err) {

@@ -95,4 +95,3 @@ function addHoverBorder(event) {
 
 board.addEventListener("click", goToSquare);
 board.addEventListener("mousemove", addHoverBorder);
-
