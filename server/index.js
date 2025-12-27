@@ -51,7 +51,7 @@ app.get("/api/coordinates", async (req, res) => {
   const y = parseInt(req.query.y);
   const range = [x, x + 100, y, y + 100];
   if (req.query.x != null || req.query.y != null) {
-    query = `${query} WHERE x >= ? AND x <= ? AND y >= ? AND y <= ?`;
+    query = `${query} WHERE x >= ? AND x < ? AND y >= ? AND y < ?`;
   }
   query = `${query};`;
   try {
@@ -108,11 +108,11 @@ app.delete("/api/coordinates", async (req, res) => {
     res.status(500).json({ error: "Database error" });
   }
 });
-
+/*
 app.post("/api/generate", async (req, res) => {
   // timeout set this long only for this route
-  req.setTimeout(180000); // 3 minutes
-  res.setTimeout(180000);
+  req.setTimeout(320000); // 3 minutes
+  res.setTimeout(320000);
 
   const message = req.body.message;
   let input = `I want to draw ${message} on a 500 * 500 pixel grid on html canvas`;
@@ -142,7 +142,7 @@ app.post("/api/generate", async (req, res) => {
     console;
   }
 });
-
+*/
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
