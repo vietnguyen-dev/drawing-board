@@ -62,6 +62,13 @@ function drawBoard() {
 }
 
 drawBoard();
+colorInput.addEventListener("click", (e) => {
+  if (deleting) {
+    deleting = false;
+    eraseBorder.classList.add("hidden");
+    color = "#FFFFFF";
+  }
+});
 
 colorInput.addEventListener("input", (e) => {
   color = e.target.value;
@@ -70,7 +77,6 @@ colorInput.addEventListener("input", (e) => {
 board.addEventListener("pointerdown", (e) => {
   drawing = true;
   board.setPointerCapture(e.pointerId);
-  saving.classList.remove("hidden");
 });
 
 board.addEventListener("pointermove", (event) => {
@@ -136,13 +142,11 @@ board.addEventListener("pointerup", async () => {
   } catch (err) {
     console.error(err);
   }
-  saving.classList.add("hidden");
   stroke = [];
 });
 
 board.addEventListener("pointercancel", () => {
   drawing = false;
-  saving.classList.add("hidden");
 });
 
 const clear = document.getElementById("clear-accept");
