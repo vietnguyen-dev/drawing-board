@@ -95,14 +95,17 @@ app.delete("/api/coordinates", async (req, res) => {
   if (!Array.isArray(points) || points.length === 0) {
     return res.status(400).json({ error: "No data" });
   }
+
   const keys = points.map((point) => [point.x, point.y]);
-  let keyString = keys.join("],[");
-  keyString = keyString.replaceAll("]", ")").replaceAll("[", "(");
-  const sql = `DELETE FROM coordinates WHERE (x, y) IN ((${keyString}));`;
+  const placeholders = keys.map(() => "(?, ?)").join(", ");
+  const values = keys.flat();
 
   try {
-    await pool.execute(sql);
-    res.json({ success: true, count: rows.length, data: rows });
+    const [result] = await pool.query(
+      `DELETE FROM coordinates WHERE (x, y) IN (${placeholders})`,
+      values
+    );
+    res.json({ success: true, count: result.affectedRows });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Database error" });
