@@ -190,6 +190,7 @@ window.addEventListener("mousemove", (e) => {
   }
 });
 
+/*
 const aiInput = document.getElementById("ai-message");
 const aiForm = document.getElementById("ai-form");
 const aiButton = document.getElementById("ai-submit");
@@ -279,3 +280,4 @@ aiDeny.addEventListener("click", async () => {
   aiAcceptance.classList.add("hidden");
   window.location.reload();
 });
+*/
