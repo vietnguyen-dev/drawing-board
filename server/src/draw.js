@@ -174,7 +174,10 @@ clear.addEventListener("click", async () => {
 
     const data = await req.json();
     console.log(data);
-    window.location.reload();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const modalEl = document.getElementById("staticBackdrop");
+    bootstrap.Modal.getInstance(modalEl).hide();
+    drawBoard();
   } catch (err) {
     console.error(err);
   }
