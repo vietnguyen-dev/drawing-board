@@ -3,7 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
-import OpenAI from "openai";
+//import OpenAI from "openai";
 import cors from "cors";
 import fs from "fs";
 
@@ -27,12 +27,12 @@ const pool = mysql.createPool({
     ca: fs.readFileSync("../cert/ca-certificate.crt"),
   },
 });
-
+/*
 const client = new OpenAI({
   apiKey: process.env.openai, // This is the default and can be omitted
   timeout: 180 * 1000,
 });
-
+*/
 // Required for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
